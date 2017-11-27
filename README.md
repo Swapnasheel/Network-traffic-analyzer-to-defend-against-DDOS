@@ -1,1 +1,2 @@
-# Network-traffic-analyzer-to-defend-against-DDOS
+# CMPE-209 course project
+# Defend against the Slow Lorris attack
