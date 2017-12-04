@@ -1,0 +1,34 @@
+#center{
+	text-align: center;
+	border: 3px solid blur;
+	padding: 10px;
+}
+
+body{
+	font-family: "Arial";
+	color: blue;
+}
+
+
+.page-bg{
+	background-image: url(http://www.sjsu.edu/sjsuhome/pics/statues-02.jpg);
+	height: 100%
+
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+
+	-webkit-filter: blur(5px);
+    -moz-filter: blur(5px);
+    -o-filter: blur(5px);
+    -ms-filter: blur(5px);
+    filter: blur(5px);
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: -1;
+
+}
+
